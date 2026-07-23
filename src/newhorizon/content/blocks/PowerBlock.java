@@ -545,6 +545,7 @@ public class PowerBlock {
             drawer = new DrawMulti(
                     new DrawRegion("-bottom"),
                     new DrawLiquidTile(NHLiquids.irdryonFluid),
+                    new DrawPlasma(),
                     new DrawDefault()
             );
 
