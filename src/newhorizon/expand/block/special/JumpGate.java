@@ -105,11 +105,17 @@ public class JumpGate extends Block {
     public float buildSpeedMultiplierCoefficient = 1f;
     public float atlasSizeScl = 1f;
     public float squareStroke = 2f;
+    public float progressCircleRadiusScl = 1.15f;
+    public float pointerOutsidePad = 10f;
 
     protected static int selectID = -1, selectNum = 1;
     protected static final Vec2 linkVec = new Vec2();
     protected static final Point2 point = new Point2();
     protected static final ObjectSet<Item> tmpItems = new ObjectSet<>();
+
+    public float progressCircleRadius() {
+        return size * tilesize / progressCircleRadiusScl;
+    }
 
     public Cons2<JumpGateBuild, Boolean> blockDrawer = (building, valid) -> {
         TextureRegion arrowRegion = NHContent.arrowRegion;
@@ -120,6 +126,7 @@ public class JumpGate extends Block {
         float sizeScl = building.block.size / 5f;
         float scl = building.warmup() * atlasSizeScl * sizeScl;
         float rot = building.totalProgress();
+        float circleR = progressCircleRadius();
 
         Draw.color(building.getColor(building.getRecipe()));
         Lines.stroke(squareStroke * building.warmup() * sizeScl);
@@ -133,7 +140,7 @@ public class JumpGate extends Block {
 
             Tmp.v1.trns(rotation + rot, -length);
             Draw.rect(arrowRegion, building.x + Tmp.v1.x, building.y + Tmp.v1.y, arrowRegion.width * Draw.scl * scl, arrowRegion.height * Draw.scl * scl, rotation + 90 + rot);
-            length = tilesize * building.block.size / 2f + 3 * sizeScl + sin;
+            length = circleR + pointerOutsidePad * sizeScl + sin;
             Tmp.v1.trns(rotation, -length);
             Draw.rect(pointerRegion, building.x + Tmp.v1.x, building.y + Tmp.v1.y, pointerRegion.width * Draw.scl * signSize * scl, pointerRegion.height * Draw.scl * signSize * scl, rotation + 90);
         }
@@ -1335,7 +1342,7 @@ public class JumpGate extends Block {
                         Draw.rect(arrowRegion, x, y, arrowRegion.width * Draw.scl * signSize * scl, arrowRegion.height * Draw.scl * signSize * scl, 90 * i);
                     }
                 }
-                DrawFunc.circlePercent(x, y, size * tilesize / 1.5f, buildProgress / costTime(getRecipe(), true), 0);
+                DrawFunc.circlePercent(x, y, progressCircleRadius(), buildProgress / costTime(getRecipe(), true), 0);
             }
             Draw.reset();
             Drawf.light(tile, size * tilesize * 4 * warmup, team.color, 0.95f);
