@@ -1299,35 +1299,38 @@ public class NHPostProcess {
         adjustContent(Blocks.coreShard, content -> {
             CoreBlock core = (CoreBlock) content;
             core.buildVisibility = BuildVisibility.shown;
-            //core.health *= 5;
+            core.health *= 5;
             core.armor = 5;
         });
 
         adjustContent(Blocks.coreFoundation, content -> {
             CoreBlock core = (CoreBlock) content;
-            //core.health *= 5;
+            core.health *= 5;
             core.armor = 10;
         });
 
         adjustContent(Blocks.coreNucleus, content -> {
             CoreBlock core = (CoreBlock) content;
-            //core.health *= 5;
+            core.health *= 5;
             core.armor = 15;
         });
 
 
         adjustContent(Blocks.coreBastion, content -> {
             CoreBlock core = (CoreBlock) content;
+            core.health *= 2;
             core.incinerateNonBuildable = false;
             core.requiresCoreZone = false;
         });
         adjustContent(Blocks.coreCitadel, content -> {
             CoreBlock core = (CoreBlock) content;
+            core.health *= 2;
             core.incinerateNonBuildable = false;
             core.requiresCoreZone = false;
         });
         adjustContent(Blocks.coreAcropolis, content -> {
             CoreBlock core = (CoreBlock) content;
+            core.health *= 2;
             core.incinerateNonBuildable = false;
             core.requiresCoreZone = false;
         });
