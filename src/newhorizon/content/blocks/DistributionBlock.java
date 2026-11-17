@@ -385,6 +385,7 @@ public class DistributionBlock {
             hasPower = true;
             conductivePower = true;
             placeableLiquid = true;
+            canOverdrive = false;
             health = 300;
             liquidCapacity = 250f;
         }};

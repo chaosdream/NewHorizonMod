@@ -1,5 +1,6 @@
 package newhorizon.expand.block.distribution.delivery;
 
+import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.math.Mathf;
@@ -7,6 +8,7 @@ import arc.math.geom.Point2;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
+import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.meta.Env;
 import mindustry.world.meta.Stat;
@@ -34,6 +36,16 @@ public class CargoDeliveryNode extends Block {
 
         config(Integer.class, (CargoDeliveryNodeBuild build, Integer value) -> build.toggleLink(world.build(value)));
         config(Point2[].class, (CargoDeliveryNodeBuild build, Point2[] value) -> build.applyLinkPoints(value));
+    }
+
+    @Override
+    public void setBars() {
+        super.setBars();
+        addBar("connections", (CargoDeliveryNodeBuild build) -> new Bar(
+                () -> Core.bundle.format("bar.new-horizon-cargo-connections", build.relayLinkCount(), maxLinks),
+                () -> Pal.accent,
+                () -> maxLinks <= 0 ? 0f : (float)build.relayLinkCount() / maxLinks
+        ));
     }
 
     @Override

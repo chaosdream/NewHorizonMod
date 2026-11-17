@@ -1,9 +1,11 @@
 package newhorizon.expand.block.distribution.delivery;
 
 import arc.audio.Sound;
+import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
 import arc.scene.ui.layout.Table;
 import arc.struct.Seq;
@@ -18,6 +20,7 @@ import mindustry.gen.Building;
 import mindustry.gen.Bullet;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Item;
 import mindustry.type.Liquid;
@@ -34,6 +37,7 @@ import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
 public class CargoDeliveryDeposit extends Block {
+    public TextureRegion configRegion;
     public float range = 80f;
     public float requestInterval = 12f;
     public Effect receiveEffect = NHFx.receive;
@@ -69,6 +73,7 @@ public class CargoDeliveryDeposit extends Block {
     @Override
     public void load() {
         super.load();
+        configRegion = Core.atlas.find(name + "-config");
         selectable.clear();
         for (Item item : content.items()) selectable.add(item);
         for (Liquid liquid : content.liquids()) selectable.add(liquid);
@@ -199,6 +204,15 @@ public class CargoDeliveryDeposit extends Block {
             Draw.rect(region, x, y);
             drawTeamTop();
             CargoDeliveryDraw.drawNodeLinks(this);
+
+            if (filter != null) {
+                float oldZ = Draw.z();
+                Draw.z(Layer.blockOver);
+                Draw.color(filter instanceof Item item ? item.color : ((Liquid)filter).color);
+                Draw.rect(configRegion, x, y);
+                Draw.color();
+                Draw.z(oldZ);
+            }
         }
 
         @Override

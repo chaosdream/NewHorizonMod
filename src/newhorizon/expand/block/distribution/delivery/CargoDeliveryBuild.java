@@ -300,18 +300,39 @@ public abstract class CargoDeliveryBuild extends Building {
         if (!CargoDeliveryGraph.isDeposit(this)) return;
 
         CargoDeliveryGraph graph = CargoDeliveryGraph.get(team);
-        for (int i = 0; i < graph.relays.size; i++) {
-            Building relay = graph.relays.get(i);
-            if (!CargoDeliveryGraph.connected(this, relay) || links.contains(relay.pos())) continue;
-            if (relay instanceof CargoDeliveryBuild build && build.links.contains(pos())) continue;
+        ObjectSet<Building> visited = new ObjectSet<>();
+        Queue<Building> queue = new Queue<>();
 
-            relay.configureAny(pos());
+        for (int i = 0; i < graph.relays.size; i++) {
+            Building seed = graph.relays.get(i);
+            if (!visited.add(seed)) continue;
+
+            Building nearest = null;
+            queue.addLast(seed);
+            while (!queue.isEmpty()) {
+                Building relay = queue.removeFirst();
+                if (CargoDeliveryGraph.connected(this, relay)
+                        && (nearest == null || relay.dst2(this) < nearest.dst2(this)
+                        || (relay.dst2(this) == nearest.dst2(this) && relay.id < nearest.id))) {
+                    nearest = relay;
+                }
+
+                IntSeq relayLinks = CargoDeliveryGraph.linksOf(relay);
+                for (int j = 0; j < relayLinks.size; j++) {
+                    Building next = world.build(relayLinks.get(j));
+                    if (next != null && next.team == team && CargoDeliveryGraph.isRelay(next) && visited.add(next)) {
+                        queue.addLast(next);
+                    }
+                }
+            }
+
+            if (nearest != null) linkTo(nearest);
         }
     }
 
     @Override
     public void drawConfigure() {
-        if (!CargoDeliveryGraph.isRelay(this)) return;
+        if (!CargoDeliveryGraph.isRelay(this) && !CargoDeliveryGraph.isDeposit(this)) return;
 
         Draw.color(Pal.accent);
         Lines.stroke(1f);
@@ -320,7 +341,7 @@ public abstract class CargoDeliveryBuild extends Building {
 
         for (int i = 0; i < links.size; i++) {
             Building other = world.build(links.get(i));
-            if (CargoDeliveryGraph.isRelay(other) && other.team == team) {
+            if ((CargoDeliveryGraph.isRelay(other) || CargoDeliveryGraph.isDeposit(other)) && other.team == team) {
                 Drawf.square(other.x, other.y, other.block.size * tilesize / 2f + 1f, Pal.place);
             }
         }
