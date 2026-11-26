@@ -1,10 +1,12 @@
 package newhorizon.expand.logic;
 
+import arc.audio.Sound;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.BulletType;
 import mindustry.game.Team;
+import mindustry.gen.Sounds;
 import newhorizon.NewHorizon;
 import newhorizon.expand.net.NHCall;
 import newhorizon.content.NHBullets;
@@ -12,6 +14,7 @@ import newhorizon.content.NHFx;
 import newhorizon.content.bullets.RaidBullets;
 import newhorizon.expand.bullets.AccelBulletType;
 import newhorizon.expand.bullets.LightningLinkerBulletType;
+import newhorizon.expand.bullets.ShieldBreakerType;
 import newhorizon.expand.bullets.raid.RandomRaidBulletType;
 import newhorizon.expand.game.RaidLogic;
 
@@ -95,20 +98,24 @@ public class RaidBulletUtil {
 
     public static BulletType prepareForRaid(BulletType type) {
         if (type == null) return null;
-        if (type instanceof LightningLinkerBulletType) {
-            BulletType copy = type.copy();
+        BulletType copy = type.copy();
+        copy.collideFloor = false;
+        copy.shootSound = raidSound(copy.shootSound);
+        copy.hitSound = raidSound(copy.hitSound);
+        copy.despawnSound = raidSound(copy.despawnSound);
+        copy.healSound = raidSound(copy.healSound);
+        if (copy instanceof ShieldBreakerType breaker) {
+            breaker.shieldHitSound = raidSound(breaker.shieldHitSound);
+        }
+        if (copy instanceof LightningLinkerBulletType linker) {
+            linker.randomGenerateSound = raidSound(linker.randomGenerateSound);
             copy.collidesTiles = false;
-            copy.collideFloor = false;
             copy.drag = 0f;
             copy.scaleLife = false;
             return copy;
         }
 
-        BulletType copy = type.copy();
-        copy.collideFloor = false;
-        if (!(copy instanceof LightningLinkerBulletType)) {
-            copy.scaleLife = true;
-        }
+        copy.scaleLife = true;
         if (copy instanceof AccelBulletType) {
             AccelBulletType accel = (AccelBulletType) copy;
             if (accel.velocityIncrease > 0.001f) {
@@ -120,6 +127,10 @@ public class RaidBulletUtil {
             }
         }
         return copy;
+    }
+
+    private static Sound raidSound(Sound sound) {
+        return sound == Sounds.beamPlasma ? Sounds.explosionQuad : sound;
     }
 
     public static void spawn(BulletType type, Team team, float x, float y, float angle, float damage, float velocityScl, float dst, float aimX, float aimY) {

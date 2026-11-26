@@ -1,5 +1,6 @@
 package newhorizon.expand.bullets;
 
+import arc.audio.Sound;
 import arc.graphics.Color;
 import arc.math.Mathf;
 import mindustry.Vars;
@@ -23,15 +24,18 @@ public class ShieldBreakerType extends BasicBulletType {
 
         @Override
         public void despawned(Bullet b) {
-            if (b.absorbed && b.data instanceof Color) {
-                NHFx.shuttle.at(b.x, b.y, Mathf.random(360f), (Color) b.data, b.damage / Vars.tilesize / 2f);
+            if (b.absorbed && b.data instanceof ShieldHit hit) {
+                NHFx.shuttle.at(b.x, b.y, Mathf.random(360f), hit.color(), b.damage / Vars.tilesize / 2f);
                 Effect.shake(b.damage / 100, b.damage / 100, b);
-                Sounds.beamPlasma.at(b);
+                hit.sound().at(b);
             }
         }
     };
     public float fragSpawnSpacing = 5;
     public float maxShieldDamage;
+    public Sound shieldHitSound = Sounds.beamPlasma;
+
+    private record ShieldHit(Color color, Sound sound) { }
 
     public ShieldBreakerType(float speed, float damage, String bulletSprite, float shieldDamage) {
         super(speed, damage, bulletSprite);
@@ -56,6 +60,8 @@ public class ShieldBreakerType extends BasicBulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if (b.timer(5, fragSpawnSpacing)) breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, backColor);
+        if (b.timer(5, fragSpawnSpacing)) {
+            breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, new ShieldHit(backColor, shieldHitSound));
+        }
     }
 }
