@@ -99,7 +99,7 @@ public class HyperReactor extends PowerGenerator {
     public Color effectColor = Color.white;
 
     public float workShake = 8f;
-    public Sound workSound = Sounds.beamPlasma;
+    public Sound workSound = Sounds.explosionQuad;
     public float attract = 8f;
     protected BulletType destroyed;
 

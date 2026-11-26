@@ -483,7 +483,7 @@ public class NHUnitTypes {
                 trailEffect = NHFx.trailToGray;
 
                 hitShake = 3f;
-                hitSound = Sounds.beamPlasma;
+                hitSound = Sounds.explosionQuad;
             }};
         }};
 
@@ -818,7 +818,8 @@ public class NHUnitTypes {
             inaccuracy = 1.3f;
             shootSound = NHSounds.shootFlak1;
 
-            bullet = NHBullets.laugraBullet;
+            bullet = NHBullets.laugraBullet.copy();
+            bullet.hitSound = Sounds.explosionQuad;
 
             parts.add(new RegionPart("-panel") {{
                 outline = mirror = true;
@@ -1914,7 +1915,7 @@ public class NHUnitTypes {
                         width = 9f;
                         height = 30f;
 
-                        hitSound = Sounds.beamPlasma;
+                        hitSound = Sounds.explosionQuad;
                         despawnShake = hitShake = 18f;
 
                         pierceArmor = true;
@@ -2031,7 +2032,7 @@ public class NHUnitTypes {
                                 homingRange = 300f;
                                 homingDelay = 5f;
 
-                                hitSound = Sounds.beamPlasma;
+                                hitSound = Sounds.explosionQuad;
                                 despawnShake = hitShake = 18f;
 
                                 status = NHStatusEffects.entangled;
@@ -2092,7 +2093,7 @@ public class NHUnitTypes {
                     }});
 
                     velocityRnd = 0.05f;
-                    shootSound = NHSounds.launch;
+                    shootSound = NHSounds.shootMissile4;
 
                     bullet = new AccelBulletType(9.2f, 500) {
                         {
@@ -2742,7 +2743,7 @@ public class NHUnitTypes {
                             bullet.damage = 200f;
                             bullet.shootEffect = NHFx.lightningHitLarge(NHColor.lightSkyBack);
                             ((ContinuousFlameBulletType) bullet).lengthInterp = NHInterp.laser;
-                            shootSound = Sounds.beamPlasma;
+                            shootSound = Sounds.explosionQuad;
                             shootStatus = StatusEffects.slow;
                             shootStatusDuration = bullet.lifetime + 40f;
                         }},
@@ -2777,6 +2778,7 @@ public class NHUnitTypes {
                                     backColor = trailColor = lightColor = lightningColor = NHColor.lightSkyBack;
                                     frontColor = Color.white;
                                     randomGenerateRange = 280f;
+                                    randomGenerateSound = Sounds.explosionQuad;
                                     randomLightningNum = 5;
                                     linkRange = 280f;
 
@@ -2854,7 +2856,7 @@ public class NHUnitTypes {
                             alternate = false;
                             ejectEffect = Fx.none;
                             recoil = 1.7f;
-                            shootSound = Sounds.beamPlasma;
+                            shootSound = Sounds.explosionQuad;
 
                             bullet = new ChainBulletType(400f) {{
                                 length = 360f;
@@ -3270,7 +3272,8 @@ public class NHUnitTypes {
                         }},
                         new Weapon() {{
                             reload = 180f;
-                            shootSound = Sounds.beamPlasma;
+                            shootSound = Sounds.beamMeltdown;
+                            initialShootSound = Sounds.none;
                             x = 0;
                             continuous = true;
                             top = alternate = rotate = mirror = false;
@@ -3797,6 +3800,7 @@ public class NHUnitTypes {
                             ejectEffect = Fx.none;
                             recoil = 4.4f;
                             bullet = new ShieldBreakerType(6.25f, 40, 650f) {{
+                                shieldHitSound = Sounds.explosionQuad;
                                 drawSize = 500f;
                                 trailLength = 18;
                                 trailWidth = 3.5f;
@@ -3822,7 +3826,7 @@ public class NHUnitTypes {
                                 lightningLengthRand = 10;
                                 smokeEffect = Fx.shootBigSmoke2;
                                 hitShake = 4f;
-                                hitSound = Sounds.beamPlasma;
+                                hitSound = Sounds.explosionQuad;
                                 shrinkX = shrinkY = 0.7f;
                             }};
                             shootSound = NHSounds.laser4;
@@ -3848,7 +3852,7 @@ public class NHUnitTypes {
                             ejectEffect = Fx.none;
                             recoil = 1.7f;
                             bullet = NHBullets.basicSkyFrag;
-                            shootSound = Sounds.beamPlasma;
+                            shootSound = Sounds.explosionQuad;
                         }}
                 );
 
@@ -3999,9 +4003,10 @@ public class NHUnitTypes {
 
                             shake = 5;
 
-                            shootSound = Sounds.beamPlasma;
+                            shootSound = Sounds.shootQuad;
 
                             bullet = new ShieldBreakerType(6, 30, "mine-bullet", 3000) {{
+                                shieldHitSound = Sounds.explosionQuad;
                                 rangeOverride = 400;
                                 scaleLife = true;
                                 shootEffect = hitEffect = Fx.hitEmpSpark;
@@ -4079,7 +4084,8 @@ public class NHUnitTypes {
                             shootSound = NHSounds.shootCoil1;
                             cooldownTime = 40f;
 
-                            bullet = NHBullets.saviourBullet;
+                            bullet = NHBullets.saviourBullet.copy();
+                            bullet.hitSound = Sounds.explosionQuad;
                         }}
                 );
 
@@ -4280,7 +4286,7 @@ public class NHUnitTypes {
                                     width = 10f;
                                     height = 40f;
 
-                                    hitSound = Sounds.beamPlasma;
+                                    hitSound = Sounds.explosionQuad;
                                     despawnShake = hitShake = 18f;
 
                                     pierceArmor = true;
@@ -4783,7 +4789,7 @@ public class NHUnitTypes {
                 engineOffset = 5f;
 
                 deathExplosionEffect = Fx.none;
-                deathSound = Sounds.beamPlasma;
+                deathSound = Sounds.explosionQuad;
                 trailLength = 40;
                 trailScl = 3f;
 
@@ -4846,7 +4852,8 @@ public class NHUnitTypes {
                         shotDelay = 25;
                     }});
 
-                    bullet = NHBullets.guardianBulletLightningBall;
+                    bullet = NHBullets.guardianBulletLightningBall.copy();
+                    bullet.hitSound = bullet.despawnSound = Sounds.explosionQuad;
                 }}, new Weapon() {
                     {
                         shootCone = 30.0F;
@@ -4875,7 +4882,7 @@ public class NHUnitTypes {
 
                             public void init(Bullet b) {
                                 super.init(b);
-                                Sounds.beamPlasma.at(b);
+                                Sounds.explosionQuad.at(b);
                             }
 
                             public void hit(Bullet b, float x, float y) {

@@ -318,6 +318,8 @@ public class NewHorizon extends Mod {
 
         RecipeRegister.load();
         UnitRecipeRegister.load();
+        // Append the ARC-9000 variant after the existing bullets so saved raid bullet IDs stay valid.
+        NHBullets.loadArc9000Variant();
 
         Log.info("New Horizon Loaded Complete: " + MOD.meta.version + " | Cost Time: " + (Time.elapsed() / Time.toSeconds) + " sec.");
     }

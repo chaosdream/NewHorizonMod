@@ -27,6 +27,7 @@ import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
+import mindustry.world.blocks.defense.turrets.ItemTurret;
 import newhorizon.NHSetting;
 import newhorizon.NewHorizon;
 import newhorizon.content.bullets.RaidBullets;
@@ -2542,7 +2543,7 @@ public class NHBullets {
                 accelInterp = Interp.pow2;
                 trailInterp = Interp.pow10Out;
 
-                despawnSound = Sounds.beamPlasma;
+                despawnSound = Sounds.explosionQuad;
                 hitSound = Sounds.explosion;
                 hitShake = 60;
                 despawnShake = 100;
@@ -2853,6 +2854,13 @@ public class NHBullets {
         };
 
         RaidBullets.load();
+    }
+
+    public static void loadArc9000Variant() {
+        LightningLinkerBulletType variant = (LightningLinkerBulletType) arc_9000.copy();
+        variant.randomGenerateSound = Sounds.explosionQuad;
+        eternity.fragBullet = variant;
+        ((ItemTurret) NHBlocks.endOfEra).ammoTypes.put(NHItems.darkEnergy, variant);
     }
 }
 

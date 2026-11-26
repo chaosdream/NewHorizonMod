@@ -1224,7 +1224,7 @@ public class NHBlocks {
 
             recoil = 18f;
             shake = 80f;
-            //shootSound = Sounds.laserblast;
+            shootSound = Sounds.shootCorvus;
             health = 800000;
             shootCone = 5f;
             maxAmmo = 80;
@@ -1464,8 +1464,8 @@ public class NHBlocks {
             rotateSpeed = 3f;
             firingMoveFract = 0.15F;
             shootDuration = 200.0F;
-            //shootSound = Sounds.shootLaser;
-            //loopSound = Sounds.loopBio;
+            shootSound = Sounds.shootMeltdown;
+            loopSound = NHSounds.loopLaser3;
             loopSoundVolume = 2.0F;
             shootType = NHBullets.atomSeparator;
 
@@ -1483,7 +1483,7 @@ public class NHBlocks {
             reload = 150f;
             range = 520f;
             unitSort = (u, x, y) -> -u.hitSize();
-            shootSound = Sounds.shootLaser;
+            shootSound = NHSounds.shootFlak1;
             inaccuracy = 0f;
             //shoot = new ShootPattern() {{
             //    firstShotDelay = NHFx.darkEnergyChargeBegin.lifetime;
@@ -1532,7 +1532,7 @@ public class NHBlocks {
                             trailWidth = 2.5f;
                             lifetime = 140f;
                             shrinkX = shrinkY = 0;
-                            //hitSound = Sounds.explosionbig;
+                            hitSound = Sounds.blockExplodeExplosiveAlt;
                             drawSize = 60f;
                             hitShake = despawnShake = 6f;
                             shootEffect = NHFx.instShoot(backColor, frontColor);
@@ -1842,7 +1842,7 @@ public class NHBlocks {
             range = 800f;
             trackingRange = range * 1.4f;
             inaccuracy = 0f;
-            //shootSound = Sounds.laserbig;
+            shootSound = Sounds.shootMeltdown;
         }};
 
         executor = new ItemTurret("executor") {{
